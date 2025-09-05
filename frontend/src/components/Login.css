@@ -1,0 +1,38 @@
+/* Gradient background with animation */
+.login-page {
+  background: linear-gradient(-45deg, #0072ff, #00c6ff, #6a11cb, #2575fc);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glass effect card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+}
+
+/* Gradient button */
+.btn-gradient {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-gradient:hover {
+  box-shadow: 0 0 20px rgba(0, 198, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(to right, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

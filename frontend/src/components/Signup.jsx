@@ -1,12 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./signup.css";
 
 export default function Signup() {
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    city: "",
+    region: "",
+  });
+
   const navigate = useNavigate();
+
+  // ✅ Auto-detect city & region on page load
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const { latitude, longitude } = pos.coords;
+
+          try {
+            // Call Nominatim Reverse Geocoding API
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+            );
+            const data = await res.json();
+
+            setFormData((prev) => ({
+              ...prev,
+              city: data.address.city || data.address.town || data.address.village || "Unknown",
+              region: data.address.state || "Unknown",
+            }));
+          } catch (err) {
+            console.error("Geocoding error:", err);
+          }
+        },
+        () => {
+          setFormData((prev) => ({ ...prev, city: "Unknown", region: "Unknown" }));
+        }
+      );
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,7 +52,16 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/register", formData);
+      const res = await axios.post("http://localhost:4000/api/auth/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        location: {
+          city: formData.city,
+          region: formData.region,
+        },
+      });
+
       if (res.status === 201) {
         alert("✅ Signup successful! Please login.");
         navigate("/login");
@@ -29,9 +75,7 @@ export default function Signup() {
     <div className="signup-bg">
       <div className="overlay"></div>
 
-      {/* ✅ Wrap both sections inside signup-container */}
       <div className="signup-container">
-        {/* Quote Section */}
         <div className="quote-section text-white">
           <h1 className="display-5 fw-bold">
             💧 "Pure water is the world’s first and foremost medicine."
@@ -39,7 +83,6 @@ export default function Signup() {
           <p className="lead mt-3">– Slovakian Proverb</p>
         </div>
 
-        {/* Signup Form */}
         <div className="form-section">
           <div className="card signup-card shadow-lg p-4">
             <h2 className="text-center mb-4">👋 Create Your Account</h2>
@@ -77,6 +120,33 @@ export default function Signup() {
                   required
                 />
               </div>
+
+              {/* ✅ City Input */}
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="City"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* ✅ Region Input */}
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Region/State"
+                  name="region"
+                  value={formData.region}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
               <button type="submit" className="btn btn-primary w-100 mb-3">
                 Sign Up
               </button>

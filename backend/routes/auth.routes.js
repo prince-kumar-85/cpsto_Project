@@ -19,8 +19,8 @@ router.post("/login", loginValidator, handleValidation, login);
 
 // Protected
 router.get("/me", protect("user"), (req, res) => {
-  const { _id, name, email } = req.user;
-  res.json({ msg: "Authenticated", user: { id: _id, name, email } });
+  const { _id, name, email, location } = req.user;
+  res.json({ msg: "Authenticated", user: { id: _id, name, email, location } });
 });
 
 router.get("/dashboard", protect("user"), (req, res) => {

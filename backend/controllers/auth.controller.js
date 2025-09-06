@@ -5,14 +5,22 @@ const { generateToken } = require("../utils/token");
 // POST /api/auth/register
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, location } = req.body;
 
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    user = new User({ name, email, password: hashedPassword });
+    user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      location: {
+        city: location?.city || "Unknown",
+        region: location?.region || "Unknown",
+      },
+    });
     await user.save();
 
     res.status(201).json({ msg: "User registered successfully" });
@@ -45,7 +53,12 @@ exports.login = async (req, res) => {
     res.json({
       token,
       role: "user",
-      user: { id: user._id, name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        location: user.location,
+      },
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });

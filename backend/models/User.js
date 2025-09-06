@@ -5,9 +5,13 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    activeSession: { type: String, default: null } // jti for single-session
+    location: {
+      city: { type: String },
+      region: { type: String },
+    },
+    activeSession: { type: String, default: null },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Uwser", userSchema); // ✅ fix typo "Usser" -> "User"
+module.exports = mongoose.model("User", userSchema);

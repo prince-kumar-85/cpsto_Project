@@ -1,12 +1,22 @@
-import React from 'react'
+// src/pages/Home.jsx
+import React from "react";
+
+
+
+import UserDashboard from "./userUIfolder/UserDashboard";
+import UserFooter from "./userUIfolder/UserFooter";
+import UserHeader from "./userUIfolder/UserHeader";
 
 function Home() {
   return (
-    <div style={{textAlign:"center", marginTop:"50px"}}>
-      <h1>Welcome to Home Page 🎉</h1>
-      <p>You are logged in successfully!</p>
+    <div className="min-vh-100 d-flex flex-column">
+      <UserHeader />
+      <main className="flex-grow-1 container py-4">
+        <UserDashboard />
+      </main>
+      <UserFooter/>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

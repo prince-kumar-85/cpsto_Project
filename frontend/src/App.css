@@ -1,0 +1,97 @@
+.about-us-wrapper {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff; /* white background like features */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* same subtle shadow */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.about-us-wrapper h1 {
+  color: #0077cc;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* Reuse card styling for each section */
+.about-section {
+  background: #dde7f2;
+  border-left: 6px solid #00aaff;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.about-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.about-section h2 {
+  color: #005fa3;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.about-section p {
+  color: #333;
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+}
+
+
+.features-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f8f9ff; /* light background similar to About Us */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+.features-container h1 {
+  color: #0077cc;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.feature-item {
+  background: #dde7f2;
+  border-left: 6px solid #00aaff;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.feature-item h2 {
+  color: #005fa3;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.feature-item p {
+  color: #333;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.features-section {
+  background-color: white; 
+  padding: 2rem;           
+  border-radius: 10px;     
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  max-width: 900px;        
+  margin: 2rem auto;       
+}

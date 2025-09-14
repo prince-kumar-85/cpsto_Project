@@ -8,22 +8,26 @@ export default function AdminDashboard() {
   const [showReports, setShowReports] = useState(false);
   const [selectedDisease, setSelectedDisease] = useState("");
 
-  const handleLogout = async () => {
+   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
+
       await axios.post(
-        "http://localhost:4000/api/auth/logout",
+        "http://localhost:4000/api/auth/logout", 
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       localStorage.removeItem("token");
-      sessionStorage.removeItem("token");
-      navigate("/admin/login");
+      navigate("/");
     } catch (err) {
       console.error("Logout error:", err);
       localStorage.removeItem("token");
-      sessionStorage.removeItem("token");
-      navigate("/admin/login");
+      navigate("/");
     }
   };
 

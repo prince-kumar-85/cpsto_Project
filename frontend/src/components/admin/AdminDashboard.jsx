@@ -12,6 +12,77 @@ export default function AdminDashboard() {
   const [emailNotifications, setEmailNotifications] = useState(false);
   const [smsNotifications, setSmsNotifications] = useState(false);
 
+  // ✅ Language state
+  const [language, setLanguage] = useState("en");
+
+  // 🌐 Translation Map
+  const translations = {
+    en: {
+      adminPanel: "⚡ Admin Panel",
+      dashboard: "Dashboard",
+      reports: "Reports",
+      sos: "SOS Alerts",
+      users: "Users",
+      settings: "Settings",
+      update: "Update Information",
+      profile: "Profile",
+      logout: "Logout",
+      welcome: "Welcome",
+      diseaseData: "Data",
+      totalUsers: "Total Users",
+      activeReports: "Active Reports",
+      recentActivity: "Recent Activity",
+      notificationStatus: "Notification Status",
+      email: "Email Notifications",
+      sms: "SMS Notifications",
+      dengue: "Dengue",
+      typhoid: "Typhoid",
+      cholera: "Cholera",
+      casesReported: "Cases reported",
+      activeCases: "Active cases",
+      recovered: "Recovered",
+      deaths: "Deaths",
+      newUsers: "new users registered",
+      newAlerts: "new SOS alerts triggered",
+      newReports: "reports submitted today",
+      enabled: "Enabled ✅",
+      disabled: "Disabled ❌",
+      showingReports: "Showing reports and statistics related to",
+    },
+    hi: {
+      adminPanel: "⚡ व्यवस्थापक पैनल",
+      dashboard: "डैशबोर्ड",
+      reports: "रिपोर्ट्स",
+      sos: "आपातकालीन अलर्ट",
+      users: "उपयोगकर्ता",
+      settings: "सेटिंग्स",
+      update: "जानकारी अपडेट करें",
+      profile: "प्रोफ़ाइल",
+      logout: "लॉगआउट",
+      welcome: "स्वागत है",
+      diseaseData: "डेटा",
+      totalUsers: "कुल उपयोगकर्ता",
+      activeReports: "सक्रिय रिपोर्ट",
+      recentActivity: "हाल की गतिविधि",
+      notificationStatus: "सूचना स्थिति",
+      email: "ईमेल सूचनाएं",
+      sms: "एसएमएस सूचनाएं",
+      dengue: "डेंगू",
+      typhoid: "टाइफॉयड",
+      cholera: "हैजा",
+      casesReported: "कुल मामले",
+      activeCases: "सक्रिय मामले",
+      recovered: "ठीक हुए",
+      deaths: "मृत्यु",
+      newUsers: "नए उपयोगकर्ता पंजीकृत हुए",
+      newAlerts: "नए SOS अलर्ट ट्रिगर किए गए",
+      newReports: "रिपोर्टें आज जमा की गईं",
+      enabled: "सक्रिय ✅",
+      disabled: "निष्क्रिय ❌",
+      showingReports: "संबंधित रिपोर्ट और आँकड़े दिखाए जा रहे हैं",
+    },
+  };
+
   // ✅ Load preferences on mount
   useEffect(() => {
     const storedEmail = localStorage.getItem("emailNotifications") === "true";
@@ -25,6 +96,9 @@ export default function AdminDashboard() {
     } else {
       document.body.classList.remove("bg-dark", "text-light");
     }
+
+    const storedLang = localStorage.getItem("language") || "en";
+    setLanguage(storedLang);
   }, []);
 
   const handleLogout = async () => {
@@ -58,16 +132,16 @@ export default function AdminDashboard() {
           💠 HydroTrim
         </div>
         <aside className="bg-dark text-white p-3 flex-grow-1 d-flex flex-column">
-          <h4 className="mb-4">⚡ Admin Panel</h4>
+          <h4 className="mb-4">{translations[language].adminPanel}</h4>
           <Link to="/admin/dashboard" className="btn btn-dark text-start mb-2">
-            📊 Dashboard
+            📊 {translations[language].dashboard}
           </Link>
           <div className="mb-2">
             <button
               className="btn btn-dark w-100 text-start"
               onClick={() => setShowReports(!showReports)}
             >
-              📑 Reports ▾
+              📑 {translations[language].reports} ▾
             </button>
             {showReports && (
               <div className="ms-3 mt-2 d-flex flex-column">
@@ -75,34 +149,34 @@ export default function AdminDashboard() {
                   className="btn btn-outline-light text-start mb-1"
                   onClick={() => setSelectedDisease("dengue")}
                 >
-                  Dengue
+                  {translations[language].dengue}
                 </button>
                 <button
                   className="btn btn-outline-light text-start mb-1"
                   onClick={() => setSelectedDisease("typhoid")}
                 >
-                  Typhoid
+                  {translations[language].typhoid}
                 </button>
                 <button
                   className="btn btn-outline-light text-start"
                   onClick={() => setSelectedDisease("cholera")}
                 >
-                  Cholera
+                  {translations[language].cholera}
                 </button>
               </div>
             )}
           </div>
           <Link to="/admin/sos" className="btn btn-dark text-start mb-2">
-            🚨 SOS Alerts
+            🚨 {translations[language].sos}
           </Link>
           <Link to="/admin/users" className="btn btn-dark text-start mb-2">
-            👥 Users
+            👥 {translations[language].users}
           </Link>
           <Link to="/admin/settings" className="btn btn-dark text-start mb-2">
-            ⚙️ Settings
+            ⚙️ {translations[language].settings}
           </Link>
           <Link to="/admin/update" className="btn btn-dark text-start mb-2">
-            ✏️ Update Information
+            ✏️ {translations[language].update}
           </Link>
         </aside>
       </div>
@@ -112,9 +186,9 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h2>Admin Dashboard</h2>
+            <h2>{translations[language].dashboard}</h2>
             <p>
-              Welcome <strong>Admin 🚀</strong> — manage everything at a glance.
+              {translations[language].welcome} <strong>Admin 🚀</strong>
             </p>
           </div>
           <div>
@@ -122,10 +196,10 @@ export default function AdminDashboard() {
               className="btn btn-outline-primary me-2"
               onClick={() => navigate("/admin/profile")}
             >
-              👤 Profile
+              👤 {translations[language].profile}
             </button>
             <button className="btn btn-outline-danger" onClick={handleLogout}>
-              🔒 Logout
+              🔒 {translations[language].logout}
             </button>
           </div>
         </div>
@@ -141,17 +215,18 @@ export default function AdminDashboard() {
           >
             <div className="card-body">
               <h4 className="fw-bold text-capitalize">
-                📌 {selectedDisease} Data
+                📌 {translations[language][selectedDisease]}{" "}
+                {translations[language].diseaseData}
               </h4>
               <p>
-                Showing reports and statistics related to{" "}
-                <strong>{selectedDisease}</strong>.
+                {translations[language].showingReports}{" "}
+                <strong>{translations[language][selectedDisease]}</strong>.
               </p>
               <ul>
-                <li>Cases reported: 25</li>
-                <li>Active cases: 10</li>
-                <li>Recovered: 12</li>
-                <li>Deaths: 3</li>
+                <li>{translations[language].casesReported}: 25</li>
+                <li>{translations[language].activeCases}: 10</li>
+                <li>{translations[language].recovered}: 12</li>
+                <li>{translations[language].deaths}: 3</li>
               </ul>
             </div>
           </div>
@@ -159,7 +234,7 @@ export default function AdminDashboard() {
 
         {/* Cards Section */}
         <div className="row g-4 mb-4">
-          {["Total Users", "Active Reports", "SOS Alerts"].map((title, i) => (
+          {[translations[language].totalUsers, translations[language].activeReports, translations[language].sos].map((title, i) => (
             <div className="col-md-4" key={i}>
               <div
                 className={`card text-center shadow-sm ${
@@ -188,26 +263,34 @@ export default function AdminDashboard() {
           }`}
         >
           <div className="card-body">
-            <h5 className="mb-3">📌 Recent Activity</h5>
+            <h5 className="mb-3">📌 {translations[language].recentActivity}</h5>
             <ul className="list-unstyled">
-              <li>✅ 5 new users registered</li>
-              <li>🚨 2 new SOS alerts triggered</li>
-              <li>📊 4 reports submitted today</li>
+              <li>✅ 5 {translations[language].newUsers}</li>
+              <li>🚨 2 {translations[language].newAlerts}</li>
+              <li>📊 4 {translations[language].newReports}</li>
             </ul>
           </div>
         </div>
 
-        {/* 🔔 Notification Banner (moved to bottom) */}
+        {/* 🔔 Notification Banner (bottom) */}
         <div className="alert alert-info shadow-sm mt-4">
-          <h5 className="mb-2">🔔 Notification Status</h5>
+          <h5 className="mb-2">🔔 {translations[language].notificationStatus}</h5>
           <ul className="mb-0">
             <li>
-              📧 Email Notifications:{" "}
-              <strong>{emailNotifications ? "Enabled ✅" : "Disabled ❌"}</strong>
+              📧 {translations[language].email}:{" "}
+              <strong>
+                {emailNotifications
+                  ? translations[language].enabled
+                  : translations[language].disabled}
+              </strong>
             </li>
             <li>
-              📱 SMS Notifications:{" "}
-              <strong>{smsNotifications ? "Enabled ✅" : "Disabled ❌"}</strong>
+              📱 {translations[language].sms}:{" "}
+              <strong>
+                {smsNotifications
+                  ? translations[language].enabled
+                  : translations[language].disabled}
+              </strong>
             </li>
           </ul>
         </div>

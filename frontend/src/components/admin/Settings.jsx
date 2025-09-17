@@ -45,16 +45,21 @@ export default function Settings() {
 
   // 🌍 Language handler
   const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-    alert(`🌍 Language set to ${e.target.value}`);
+    const newLang = e.target.value;
+    setLanguage(newLang);
+    localStorage.setItem("language", newLang); // ✅ save to localStorage
+    alert(`🌍 Language set to ${newLang === "en" ? "English" : "हिन्दी"}`);
   };
 
   // 🎨 Load preferences on mount
   useEffect(() => {
     const storedEmail = localStorage.getItem("emailNotifications") === "true";
     const storedSms = localStorage.getItem("smsNotifications") === "true";
+    const storedLang = localStorage.getItem("language") || "en";
+
     setEmailNotifications(storedEmail);
     setSmsNotifications(storedSms);
+    setLanguage(storedLang);
 
     if (darkMode) {
       document.body.classList.add("bg-dark", "text-light");
@@ -65,11 +70,9 @@ export default function Settings() {
   useEffect(() => {
     if (emailNotifications) {
       console.log("✅ Email notifications enabled");
-      // Backend call here
     }
     if (smsNotifications) {
       console.log("✅ SMS notifications enabled");
-      // Backend call here
     }
   }, [emailNotifications, smsNotifications]);
 
@@ -150,8 +153,6 @@ export default function Settings() {
             >
               <option value="en">English</option>
               <option value="hi">हिन्दी</option>
-              <option value="fr">Français</option>
-              <option value="es">Español</option>
             </select>
           </div>
         </div>

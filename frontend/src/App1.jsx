@@ -4,6 +4,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 
+import Settings from "./components/admin/Settings";
+
 import AdminLogin from "./components/admin/AdminLogin";
 import AdminSignup from "./components/admin/AdminSignup";
 import AdminDashboard from "./components/admin/AdminDashboard";
@@ -28,6 +30,8 @@ function App1() {
       <Route path="/admin/signup" element={<AdminSignup />} />
       <Route path="/admin/login" element={<AdminLogin setIsAdminAuthenticated={setIsAdminAuthenticated} />} />
       <Route path="/admin/dashboard" element={isAdminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/login" />} />
+      <Route path="/admin/settings" element={<Settings />} />
+
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" />} />

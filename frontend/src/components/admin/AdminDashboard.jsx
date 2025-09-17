@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react"; 
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -6,6 +7,25 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const [showReports, setShowReports] = useState(false);
   const [selectedDisease, setSelectedDisease] = useState("");
+
+  // ✅ Notification states
+  const [emailNotifications, setEmailNotifications] = useState(false);
+  const [smsNotifications, setSmsNotifications] = useState(false);
+
+  // ✅ Load preferences on mount
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("emailNotifications") === "true";
+    const storedSms = localStorage.getItem("smsNotifications") === "true";
+    setEmailNotifications(storedEmail);
+    setSmsNotifications(storedSms);
+
+    const darkMode = localStorage.getItem("darkMode") === "true";
+    if (darkMode) {
+      document.body.classList.add("bg-dark", "text-light");
+    } else {
+      document.body.classList.remove("bg-dark", "text-light");
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -24,18 +44,14 @@ export default function AdminDashboard() {
     }
   };
 
-  // **Apply dark mode from localStorage on mount**
-  useEffect(() => {
-    const darkMode = localStorage.getItem("darkMode") === "true";
-    if (darkMode) {
-      document.body.classList.add("bg-dark", "text-light");
-    } else {
-      document.body.classList.remove("bg-dark", "text-light");
-    }
-  }, []);
-
   return (
-    <div className={`d-flex min-vh-100 ${localStorage.getItem("darkMode") === "true" ? "bg-dark text-light" : "bg-light"}`}>
+    <div
+      className={`d-flex min-vh-100 ${
+        localStorage.getItem("darkMode") === "true"
+          ? "bg-dark text-light"
+          : "bg-light"
+      }`}
+    >
       {/* Sidebar */}
       <div style={{ width: "250px" }} className="d-flex flex-column">
         <div className="p-3 text-center fw-bold fs-3 text-primary">
@@ -76,10 +92,18 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
-          <Link to="/admin/sos" className="btn btn-dark text-start mb-2">🚨 SOS Alerts</Link>
-          <Link to="/admin/users" className="btn btn-dark text-start mb-2">👥 Users</Link>
-          <Link to="/admin/settings" className="btn btn-dark text-start mb-2">⚙️ Settings</Link>
-          <Link to="/admin/update" className="btn btn-dark text-start mb-2">✏️ Update Information</Link>
+          <Link to="/admin/sos" className="btn btn-dark text-start mb-2">
+            🚨 SOS Alerts
+          </Link>
+          <Link to="/admin/users" className="btn btn-dark text-start mb-2">
+            👥 Users
+          </Link>
+          <Link to="/admin/settings" className="btn btn-dark text-start mb-2">
+            ⚙️ Settings
+          </Link>
+          <Link to="/admin/update" className="btn btn-dark text-start mb-2">
+            ✏️ Update Information
+          </Link>
         </aside>
       </div>
 
@@ -108,13 +132,20 @@ export default function AdminDashboard() {
 
         {/* Disease Data */}
         {selectedDisease && (
-          <div className={`card shadow-sm mb-4 ${localStorage.getItem("darkMode") === "true" ? "bg-secondary text-light" : ""}`}>
+          <div
+            className={`card shadow-sm mb-4 ${
+              localStorage.getItem("darkMode") === "true"
+                ? "bg-secondary text-light"
+                : ""
+            }`}
+          >
             <div className="card-body">
               <h4 className="fw-bold text-capitalize">
                 📌 {selectedDisease} Data
               </h4>
               <p>
-                Showing reports and statistics related to <strong>{selectedDisease}</strong>.
+                Showing reports and statistics related to{" "}
+                <strong>{selectedDisease}</strong>.
               </p>
               <ul>
                 <li>Cases reported: 25</li>
@@ -130,10 +161,18 @@ export default function AdminDashboard() {
         <div className="row g-4 mb-4">
           {["Total Users", "Active Reports", "SOS Alerts"].map((title, i) => (
             <div className="col-md-4" key={i}>
-              <div className={`card text-center shadow-sm ${localStorage.getItem("darkMode") === "true" ? "bg-secondary text-light" : ""}`}>
+              <div
+                className={`card text-center shadow-sm ${
+                  localStorage.getItem("darkMode") === "true"
+                    ? "bg-secondary text-light"
+                    : ""
+                }`}
+              >
                 <div className="card-body">
                   <h5 className="text-muted">{title}</h5>
-                  <p className="fs-3 fw-bold">{i === 0 ? 150 : i === 1 ? 12 : 3}</p>
+                  <p className="fs-3 fw-bold">
+                    {i === 0 ? 150 : i === 1 ? 12 : 3}
+                  </p>
                 </div>
               </div>
             </div>
@@ -141,7 +180,13 @@ export default function AdminDashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className={`card shadow-sm ${localStorage.getItem("darkMode") === "true" ? "bg-secondary text-light" : ""}`}>
+        <div
+          className={`card shadow-sm ${
+            localStorage.getItem("darkMode") === "true"
+              ? "bg-secondary text-light"
+              : ""
+          }`}
+        >
           <div className="card-body">
             <h5 className="mb-3">📌 Recent Activity</h5>
             <ul className="list-unstyled">
@@ -150,6 +195,21 @@ export default function AdminDashboard() {
               <li>📊 4 reports submitted today</li>
             </ul>
           </div>
+        </div>
+
+        {/* 🔔 Notification Banner (moved to bottom) */}
+        <div className="alert alert-info shadow-sm mt-4">
+          <h5 className="mb-2">🔔 Notification Status</h5>
+          <ul className="mb-0">
+            <li>
+              📧 Email Notifications:{" "}
+              <strong>{emailNotifications ? "Enabled ✅" : "Disabled ❌"}</strong>
+            </li>
+            <li>
+              📱 SMS Notifications:{" "}
+              <strong>{smsNotifications ? "Enabled ✅" : "Disabled ❌"}</strong>
+            </li>
+          </ul>
         </div>
       </main>
     </div>

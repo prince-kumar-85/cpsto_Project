@@ -1,11 +1,11 @@
 
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
   const navigate = useNavigate();
 
+  // States
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true" || false
   );
@@ -13,7 +13,7 @@ export default function Settings() {
   const [smsNotifications, setSmsNotifications] = useState(false);
   const [language, setLanguage] = useState("en");
 
-  // Toggle dark mode
+  // 🎨 Dark mode toggle
   const handleToggleDarkMode = () => {
     const newMode = !(localStorage.getItem("darkMode") === "true");
     localStorage.setItem("darkMode", newMode);
@@ -28,26 +28,50 @@ export default function Settings() {
     alert(`🌗 Dark mode ${newMode ? "enabled" : "disabled"} globally`);
   };
 
+  // 🔔 Notification Handler
   const handleNotificationChange = (type) => {
     if (type === "email") {
-      setEmailNotifications(!emailNotifications);
-      alert(`📧 Email notifications ${!emailNotifications ? "enabled" : "disabled"}`);
+      const newValue = !emailNotifications;
+      setEmailNotifications(newValue);
+      localStorage.setItem("emailNotifications", newValue);
+      alert(`📧 Email notifications ${newValue ? "enabled" : "disabled"}`);
     } else if (type === "sms") {
-      setSmsNotifications(!smsNotifications);
-      alert(`📱 SMS notifications ${!smsNotifications ? "enabled" : "disabled"}`);
+      const newValue = !smsNotifications;
+      setSmsNotifications(newValue);
+      localStorage.setItem("smsNotifications", newValue);
+      alert(`📱 SMS notifications ${newValue ? "enabled" : "disabled"}`);
     }
   };
 
+  // 🌍 Language handler
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
     alert(`🌍 Language set to ${e.target.value}`);
   };
 
+  // 🎨 Load preferences on mount
   useEffect(() => {
+    const storedEmail = localStorage.getItem("emailNotifications") === "true";
+    const storedSms = localStorage.getItem("smsNotifications") === "true";
+    setEmailNotifications(storedEmail);
+    setSmsNotifications(storedSms);
+
     if (darkMode) {
       document.body.classList.add("bg-dark", "text-light");
     }
   }, [darkMode]);
+
+  // 🚀 Watch for changes (simulate backend call)
+  useEffect(() => {
+    if (emailNotifications) {
+      console.log("✅ Email notifications enabled");
+      // Backend call here
+    }
+    if (smsNotifications) {
+      console.log("✅ SMS notifications enabled");
+      // Backend call here
+    }
+  }, [emailNotifications, smsNotifications]);
 
   return (
     <div className={`min-vh-100 ${darkMode ? "bg-dark text-light" : "bg-light"}`}>

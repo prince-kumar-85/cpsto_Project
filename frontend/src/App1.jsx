@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
+import AdminProfile from "./components/admin/AdminProfile";
 
 import Settings from "./components/admin/Settings";
 
@@ -32,7 +33,7 @@ function App1() {
       <Route path="/admin/dashboard" element={isAdminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/login" />} />
       <Route path="/admin/settings" element={<Settings />} />
 
-
+      <Route path="/admin/profile" element={<AdminProfile />} />
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>

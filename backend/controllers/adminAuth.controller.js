@@ -1,3 +1,4 @@
+
 const Admin = require("../models/Admin");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../utils/token");
@@ -7,11 +8,18 @@ exports.signup = async (req, res) => {
   try {
     const { hospitalName, headName, email, password } = req.body;
 
+    // Check if admin already exists
     let existing = await Admin.findOne({ email });
     if (existing) return res.status(400).json({ msg: "Admin already exists" });
 
+    // Hash password
     const hashed = await bcrypt.hash(password, 10);
-    const admin = new Admin({ hospitalName, headName, email, password: hashed });
+    const admin = new Admin({
+      hospitalName,
+      headName,
+      email,
+      password: hashed,
+    });
     await admin.save();
 
     res.status(201).json({ msg: "Admin signup successful" });
@@ -25,23 +33,40 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Check if admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) return res.status(400).json({ msg: "Invalid credentials" });
 
+    // Compare password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
+    // Single-session check
     if (admin.activeSession) {
-      return res.status(403).json({ msg: "Admin already logged in elsewhere" });
+      return res
+        .status(403)
+        .json({ msg: "Admin already logged in elsewhere" });
     }
 
+    // Generate token with JTI
     const jti = Date.now().toString();
     const token = generateToken(admin._id, "admin", jti);
 
+    // Save active session
     admin.activeSession = jti;
     await admin.save();
 
-    res.json({ token, role: "admin", admin: { id: admin._id, email: admin.email, headName: admin.headName } });
+    // ✅ Return token + full profile
+    res.json({
+      token,
+      role: "admin",
+      admin: {
+        id: admin._id,
+        email: admin.email,
+        headName: admin.headName,
+        hospitalName: admin.hospitalName, // added this
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

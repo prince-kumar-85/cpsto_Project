@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Shield, KeyRound } from "lucide-react";
+import { Shield } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Login.css";
 
@@ -20,7 +21,13 @@ function AdminLogin({ setIsAdminAuthenticated }) {
     setIsLoading(true);
     try {
       const res = await axios.post("http://localhost:4000/api/admin/login", formData);
-      localStorage.setItem("adminToken", res.data.token);
+
+      // ✅ Save token with the same key used in AdminProfile.jsx
+      localStorage.setItem("token", res.data.token);
+
+      // ✅ (Optional) Save admin info for quick access elsewhere
+      localStorage.setItem("admin", JSON.stringify(res.data.admin));
+
       setIsAdminAuthenticated(true);
       navigate("/admin/dashboard");
     } catch (err) {
@@ -57,7 +64,10 @@ function AdminLogin({ setIsAdminAuthenticated }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
           >
-            <div className="card glass-card p-4 shadow-lg border-0 w-100" style={{ maxWidth: "400px" }}>
+            <div
+              className="card glass-card p-4 shadow-lg border-0 w-100"
+              style={{ maxWidth: "400px" }}
+            >
               <div className="text-center mb-4">
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -111,10 +121,16 @@ function AdminLogin({ setIsAdminAuthenticated }) {
 
               {/* Extra Links */}
               <div className="d-flex justify-content-between mt-4">
-                <Link to="/admin/signup" className="font-monospace text-decoration-none text-white">
+                <Link
+                  to="/admin/signup"
+                  className="font-monospace text-decoration-none text-white"
+                >
                   ➕ Signup as Admin
                 </Link>
-                <Link to="/" className="font-monospace text-decoration-none text-white">
+                <Link
+                  to="/"
+                  className="font-monospace text-decoration-none text-white"
+                >
                   ⬅ Back to Home
                 </Link>
               </div>

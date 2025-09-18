@@ -4,14 +4,15 @@ import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer,
   BarChart, Bar, Legend, CartesianGrid
 } from "recharts";
+import { User, Activity, Stethoscope, BedDouble } from "lucide-react";
 
 export default function UserDashboard() {
-  const summary = {
-    doctors: 42,
-    patients: 2431,
-    opdToday: 86,
-    ipdAdmitted: 27,
-  };
+  const summary = [
+    { label: "Doctors", value: 42, note: "Active", icon: <Stethoscope className="text-primary" /> },
+    { label: "Total Patients", value: 2431, note: "All time", icon: <User className="text-success" /> },
+    { label: "OPD Today", value: 86, note: "Appointments", icon: <Activity className="text-info" /> },
+    { label: "IPD Admitted", value: 27, note: "Beds occupied", icon: <BedDouble className="text-danger" /> },
+  ];
 
   const areaData = [
     { day: "Mon", patients: 60, revenue: 4000 },
@@ -34,61 +35,77 @@ export default function UserDashboard() {
     <>
       {/* Stats Section */}
       <motion.section
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
+        transition={{ duration: 0.4 }}
         className="row g-3 mb-4"
       >
-        {[
-          { label: "Doctors", value: summary.doctors, note: "Active" },
-          { label: "Total Patients", value: summary.patients, note: "All time" },
-          { label: "OPD Today", value: summary.opdToday, note: "Appointments" },
-          { label: "IPD Admitted", value: summary.ipdAdmitted, note: "Beds occupied" },
-        ].map((item, idx) => (
-          <div key={idx} className="col-6 col-lg-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h6 className="card-title text-muted small">{item.label}</h6>
+        {summary.map((item, idx) => (
+          <motion.div
+            key={idx}
+            whileHover={{ scale: 1.04 }}
+            className="col-6 col-lg-3"
+          >
+            <div className="card shadow-sm border-0 rounded-3 h-100">
+              <div className="card-body d-flex flex-column align-items-start gap-2">
+                <div className="d-flex align-items-center gap-2">
+                  {item.icon}
+                  <h6 className="card-title text-muted small mb-0">{item.label}</h6>
+                </div>
                 <h3 className="fw-bold mb-0">{item.value}</h3>
                 <small className="text-muted">{item.note}</small>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </motion.section>
 
       {/* Area Chart */}
-      <div className="card mb-4">
-        <div className="card-header">
-          <h6 className="mb-0">Weekly Patients & Revenue</h6>
-          <small className="text-muted">Last 7 days</small>
+      <div className="card mb-4 shadow-sm border-0 rounded-3">
+        <div className="card-header bg-white border-0 d-flex flex-column">
+          <h6 className="mb-0 fw-semibold">Weekly Patients & Revenue</h6>
+          <small className="text-muted">Last 7 days trend</small>
         </div>
-        <div className="card-body" style={{ height: "300px" }}>
+        <div className="card-body" style={{ height: "320px" }}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={areaData}>
+              <defs>
+                <linearGradient id="colorPatients" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#0d6efd" stopOpacity={0.7} />
+                  <stop offset="95%" stopColor="#0d6efd" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
               <XAxis dataKey="day" />
               <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="patients" strokeWidth={2} stroke="#0d6efd" fillOpacity={0.2} fill="#0d6efd" />
+              <Tooltip cursor={{ fill: "rgba(0,0,0,0.05)" }} />
+              <Area
+                type="monotone"
+                dataKey="patients"
+                strokeWidth={2}
+                stroke="#0d6efd"
+                fill="url(#colorPatients)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Bar Chart */}
-      <div className="card">
-        <div className="card-header">
-          <h6 className="mb-0">Department Usage</h6>
+      <div className="card shadow-sm border-0 rounded-3">
+        <div className="card-header bg-white border-0">
+          <h6 className="mb-0 fw-semibold">Department Usage</h6>
+          <small className="text-muted">Distribution of patients</small>
         </div>
         <div className="card-body" style={{ height: "280px" }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={barData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="count" barSize={28} fill="#198754" />
+              <Bar dataKey="count" barSize={28} fill="#198754" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

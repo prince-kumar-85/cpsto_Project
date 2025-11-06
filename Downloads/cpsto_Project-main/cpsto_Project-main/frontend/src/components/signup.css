@@ -1,0 +1,82 @@
+/* Background with water photo */
+.signup-bg {
+  background: url("https://www.hdwallpapers.in/download/falling_rain_drops_on_white_umbrella_hd_rain-HD.jpg")
+    no-repeat center center/cover;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 40, 80, 0.6);
+  z-index: 1;
+}
+
+/* Horizontal container */
+.signup-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+/* Quote styling */
+.quote-section {
+  flex: 1;
+  color: #fff;
+  animation: fadeInLeft 1.5s ease;
+}
+
+.quote-section h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.quote-section p {
+  font-size: 1.2rem;
+  margin-top: 15px;
+  opacity: 0.9;
+}
+
+/* Signup card */
+.form-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.signup-card {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  animation: fadeInRight 1.2s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}

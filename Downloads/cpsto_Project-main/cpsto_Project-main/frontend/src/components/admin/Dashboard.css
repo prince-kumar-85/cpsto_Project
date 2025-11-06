@@ -1,0 +1,169 @@
+/* ===== Dashboard Styling ===== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f3f4f6, #e0e7ff);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional background animation */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-bg {
+  background: linear-gradient(-45deg, #c7d2fe, #e0f2fe, #fef3c7, #fbcfe8);
+  background-size: 400% 400%;
+  animation: gradientAnimation 12s ease infinite;
+}
+
+/* Sidebar */
+.sidebar {
+  background: rgba(30, 41, 59, 0.95);
+  color: white;
+  width: 250px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+}
+.sidebar h2 {
+  margin-bottom: 30px;
+}
+.sidebar a {
+  display: block;
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 8px;
+  color: #f1f5f9;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.sidebar a:hover {
+  background: #6366f1;
+  color: white;
+}
+.logout-btn {
+  margin-top: auto;
+  padding: 12px;
+  background: #ef4444;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* Main Dashboard */
+.dashboard-container {
+  flex: 1;
+  padding: 30px;
+}
+.dashboard-header {
+  margin-bottom: 30px;
+}
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  color: #1e293b;
+}
+.dashboard-header p {
+  font-size: 1.1rem;
+  color: #475569;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.card h2 {
+  font-size: 1rem;
+  color: #6b7280;
+}
+.card p {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Recent Activity */
+.activity {
+  margin-top: 40px;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.activity h2 {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  color: #334155;
+}
+.activity ul {
+  list-style: none;
+  padding: 0;
+}
+.activity li {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Sidebar dropdown */
+.dropdown-btn {
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dropdown-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-container {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  background: none;
+  border: none;
+  color: #ddd;
+  text-align: left;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: color 0.3s, background 0.3s;
+}
+
+.dropdown-item:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
